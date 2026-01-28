@@ -1,0 +1,88 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ailang"
+version = "0.1.0"
+description = "A structured language for human-AI communication"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [
+    { name = "AILANG Contributors" }
+]
+keywords = ["ai", "llm", "prompt", "language", "openai", "anthropic", "gpt", "claude"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+dependencies = [
+    "openai>=1.0.0",
+    "anthropic>=0.18.0",
+    "httpx>=0.25.0",
+    "pyyaml>=6.0",
+    "click>=8.0.0",
+    "rich>=13.0.0",
+    "pydantic>=2.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.0.0",
+    "mypy>=1.0.0",
+    "ruff>=0.1.0",
+    "black>=23.0.0",
+]
+server = [
+    "fastapi>=0.100.0",
+    "uvicorn>=0.23.0",
+]
+all = ["ailang[dev,server]"]
+
+[project.scripts]
+ailang = "ailang.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/yourusername/ailang"
+Documentation = "https://github.com/yourusername/ailang#readme"
+Repository = "https://github.com/yourusername/ailang"
+Issues = "https://github.com/yourusername/ailang/issues"
+
+[tool.hatch.build.targets.sdist]
+include = ["/src"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ailang"]
+sources = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP"]
+ignore = ["N801"]  # Allow class names like List_, Optional_, Enum_ (avoid builtin conflicts)
+
+[tool.mypy]
+python_version = "3.10"
+strict = false
+ignore_missing_imports = true
+disable_error_code = ["no-any-return", "no-untyped-def", "misc", "var-annotated", "type-arg", "abstract", "assignment", "no-untyped-call", "untyped-decorator", "import-untyped"]
+
+[tool.black]
+line-length = 100
+target-version = ["py310"]
